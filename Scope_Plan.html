@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Collections Platform — BRD Ecosystem Roadmap</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100vh;background:#f4f2ec;color:#1a1a16;font-family:system-ui,-apple-system,sans-serif;font-size:13px}
+body{padding:28px 36px 60px}
+h1{font-size:20px;font-weight:700;color:#111;letter-spacing:-.01em;margin-bottom:4px}
+.meta{font-size:11px;color:#888;margin-bottom:20px;line-height:2}
+.meta span{margin-right:20px;color:#999}
+/* Legend */
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;margin-bottom:24px;padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #e0ddd4}
+.li{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+/* Phase */
+.phase{margin-bottom:14px;border-radius:10px;overflow:visible;border:1px solid transparent}
+.phase-header{display:flex;align-items:center;gap:10px;padding:8px 16px;border-radius:10px 10px 0 0}
+.phase-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.phase-body{padding:14px 16px 16px;border-radius:0 0 10px 10px}
+.ph-mvp1 .phase-header{background:#d6f0e4;border-bottom:1px solid #b0dcc4}
+.ph-mvp1 .phase-title{color:#0a4a2e}
+.ph-mvp1 .phase-body{background:#f0faf4;border:1px solid #c8e8d4;border-top:none}
+.ph-mvp2 .phase-header{background:#d4e7f8;border-bottom:1px solid #aacfee}
+.ph-mvp2 .phase-title{color:#0a2f52}
+.ph-mvp2 .phase-body{background:#f0f6fd;border:1px solid #bcd9f0;border-top:none}
+.ph-mvp3 .phase-header{background:#fde4cc;border-bottom:1px solid #f0c0a0}
+.ph-mvp3 .phase-title{color:#4a1e06}
+.ph-mvp3 .phase-body{background:#fef7f2;border:1px solid #f0d0bc;border-top:none}
+.ph-future .phase-header{background:#e8e6de;border-bottom:1px solid #d0cdc4}
+.ph-future .phase-title{color:#555}
+.ph-future .phase-body{background:#f5f4ee;border:1px solid #ddddd5;border-top:none}
+/* Layer rows */
+.layer{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px}
+.layer:last-of-type{margin-bottom:0}
+.layer-tag{writing-mode:vertical-rl;transform:rotate(180deg);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;padding:6px 4px;min-width:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-right:1px solid #e0ddd4}
+.cards-row{display:flex;flex-wrap:wrap;gap:8px;flex:1}
+/* Cards */
+.card{border-radius:8px;padding:10px 12px;width:160px;flex-shrink:0;cursor:pointer;position:relative;transition:transform .16s,box-shadow .16s;border:1.5px solid transparent;background:#fff}
+.card:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:10}
+.card-wide{width:100%;max-width:9999px;flex:1}
+.card-id{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.card-name{font-size:11px;font-weight:600;line-height:1.35;margin-bottom:7px;color:#111}
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.02em;display:inline-block;white-space:nowrap}
+/* Card themes */
+.done{border-color:#a8d8be;background:#edf8f1} .done .card-id{color:#0a6640}
+.done .badge{background:#0a6640;color:#fff}
+.indev{border-color:#f5cc80;background:#fff9ed} .indev .card-id{color:#7a4a00}
+.indev .badge{background:#c97d00;color:#fff}
+.next1{border-color:#b0a8f0;background:#f0eefc} .next1 .card-id{color:#3028a0}
+.next1 .badge{background:#3028a0;color:#fff}
+.next2{border-color:#a0a8e8;background:#eeeffe} .next2 .card-id{color:#252888} .next2 .badge{background:#252888;color:#fff}
+.next3{border-color:#90a0e0;background:#eceefc} .next3 .card-id{color:#1e2278} .next3 .badge{background:#1e2278;color:#fff}
+.next4{border-color:#8898d8;background:#eaecfa} .next4 .card-id{color:#181c68} .next4 .badge{background:#181c68;color:#fff}
+.mvp2{border-color:#80b8e8;background:#eaf3fd} .mvp2 .card-id{color:#0a3a6a} .mvp2 .badge{background:#0a3a6a;color:#fff}
+.mvp3{border-color:#f0a878;background:#fef3ec} .mvp3 .card-id{color:#7a2a06}
+.mvp3 .badge{background:#7a2a06;color:#fff}
+.future{border-color:#d0cdc4;background:#f5f4ee} .future .card-id{color:#888}
+.future .badge{background:#999;color:#fff}
+/* Subcard within CRM */
+.subcard{border-radius:6px;padding:7px 10px;font-size:10px;border:1px solid #e0ddd4;background:#fff;margin-top:6px}
+.subcard-title{font-weight:700;font-size:10px;color:#444;margin-bottom:2px}
+.subcard-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;background:#c97d00;color:#fff}
+/* Live banners */
+.live-bar{border-radius:6px;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin:6px 0 2px}
+.live-t1{background:#0a6640;color:#d6f0e4}
+.live-t2{background:#0a3a6a;color:#d4e7f8}
+/* Sequence strip */
+.seq-strip{margin-top:20px;background:#fff;border:1px solid #e0ddd4;border-radius:8px;padding:12px 16px;font-size:10px;color:#888;line-height:2.2}
+.seq-strip strong{color:#333;font-size:11px}
+.seq-step{display:inline-block;background:#f0eefc;border:1px solid #c0b8f0;border-radius:4px;padding:2px 9px;margin:2px 3px;color:#2a2080;font-size:10px;font-weight:600}
+.seq-arrow{color:#bbb;margin:0 1px;font-size:12px}
+.seq-live{display:inline-block;background:#0a6640;border-radius:4px;padding:2px 9px;margin:2px 3px;color:#d6f0e4;font-size:10px;font-weight:700}
+.seq-live2{background:#0a3a6a;color:#d4e7f8}
+/* Future pills */
+.future-pills{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0}
+.fp{font-size:11px;padding:5px 12px;border-radius:20px;background:#eeede6;color:#777;border:1px solid #d8d5cc}
+/* Reporting note */
+.rpt-note{margin-top:12px;background:#fff;border:1px solid #d8d5cc;border-radius:8px;padding:10px 14px;font-size:11px;color:#777;line-height:1.7}
+.rpt-note strong{color:#333}
+/* Divider */
+hr.div{border:none;border-top:1px dashed #ddddd5;margin:8px 0}
+/* Phase count badge */
+.phase-count{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(0,0,0,.08);color:inherit;margin-left:auto}
+/* Tooltip */
+.tooltip{position:fixed;display:none;background:#fff;border:1px solid #ddd;border-radius:10px;padding:14px 16px;width:300px;z-index:9999;box-shadow:0 12px 40px rgba(0,0,0,.15);pointer-events:none}
+.tooltip.show{display:block}
+.tt-id{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#aaa;margin-bottom:2px}
+.tt-name{font-size:13px;font-weight:700;color:#111;margin-bottom:6px;line-height:1.3}
+.tt-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:10px;display:inline-block}
+.tt-divider{border:none;border-top:1px solid #eee;margin:8px 0}
+.tt-pts{list-style:none}
+.tt-pts li{font-size:11px;color:#555;padding:3px 0 3px 14px;position:relative;line-height:1.4;border-bottom:1px solid #f5f5f0}
+.tt-pts li:last-child{border-bottom:none}
+.tt-pts li::before{content:'›';position:absolute;left:2px;color:#bbb;font-size:14px;line-height:1.1}
+.tt-pts li.evolves{color:#888;font-style:italic}
+.tt-pts li.evolves::before{content:'↗';font-size:11px;color:#aaa}
+.tt-pts li.warn{color:#b06000;background:#fff8ee;border-radius:3px;padding-left:20px}
+.tt-pts li.warn::before{content:'⚠';font-style:normal;color:#c97d00;font-size:11px}
+</style>
+</head>
+<body>
+<h1>Collections Platform — BRD Ecosystem Roadmap</h1>
+<div class="meta">
+<span>Domain: Loan / EMI Collections</span>
+<span>Agents: Call Centre · Field · Legal · Digital (IVR)</span>
+<span>Clients: Internal + External (NBFCs, Banks, Fintechs)</span>
+<span>18 BRDs · 3+ MVP Tiers · 2 Launch Tracks</span>
+</div>
+<!-- Legend -->
+<div class="legend">
+<div class="li"><div class="ld" style="background:#0a6640"></div>BRD Done</div>
+<div class="li"><div class="ld" style="background:#c97d00"></div>In Dev</div>
+<div class="li"><div class="ld" style="background:#3028a0"></div>1st Next in Line</div>
+<div class="li"><div class="ld" style="background:#252888"></div>2nd Next in Line</div>
+<div class="li"><div class="ld" style="background:#1e2278"></div>3rd Next in Line</div>
+<div class="li"><div class="ld" style="background:#181c68"></div>4th Next in Line</div>
+<div class="li"><div class="ld" style="background:#0a3a6a"></div>MVP 2</div>
+<div class="li"><div class="ld" style="background:#7a2a06"></div>MVP 3</div>
+<div class="li"><div class="ld" style="background:#999"></div>Future</div>
+<div class="li" style="margin-left:12px;font-style:italic;font-size:10px;color:#bbb">Hover any card for full detail</div>
+</div>
+<!-- ════════════════════════════════════════
+     MVP 1
+     ════════════════════════════════════════ -->
+<div class="phase ph-mvp1">
+<div class="phase-header">
+  <div class="phase-title">MVP 1 — Call Centre Live</div>
+  <div class="phase-count">5 BRDs + 1 API</div>
+</div>
+<div class="phase-body">
+  <!-- Foundation -->
+  <div class="layer">
+    <div class="layer-tag">Foundation</div>
+    <div class="cards-row">
+      <!-- CRM Core — expanded with sub-items -->
+      <div class="card indev" style="width:220px"
+        id="c01"
+        data-id="BRD 01" data-name="CRM Core" data-badge="In Dev" data-badgecls="indev"
+        data-pts='["Customer and loan/case records with all relevant fields","Interaction timeline: calls, SMS, notes, tasks","Disposition logging and history per case","DNC flag and pipeline stage tracking","Custom field schema configurable per client","Case status management: open, in progress, closed, escalated","Excel / CSV upload of case data — bulk import with field mapping","API integration with client DB / LOS for real-time case ingestion","Data validation on upload: error rows flagged with reason","Excludes: campaign mgmt, templates, workflow — those are later BRDs"]'
+        data-evolves="Campaign management, workflow hooks, template linking added in MVP 2">
+        <div class="card-id">BRD 01</div>
+        <div class="card-name">CRM Core</div>
+        <span class="badge">In Dev</span>
+        <div class="subcard">
+          <div class="subcard-title">Data Ingestion <span class="subcard-badge">In Dev</span></div>
+          <div style="font-size:10px;color:#777;margin-top:3px;line-height:1.5">Excel / CSV bulk upload<br/>API integration with client DB / LOS</div>
+        </div>
+      </div>
+      <div class="card done"
+        id="c02"
+        data-id="BRD 02" data-name="Tenant Management (Basic)" data-badge="BRD Done" data-badgecls="done"
+        data-pts='["Multi-client data isolation — zero cross-tenant leakage","Manual tenant creation by Super Admin only","Client credential issuance and basic portal access","Per-tenant channel and calling hour configuration","All records, calls, reports strictly scoped per tenant"]'
+        data-evolves="Self-service onboarding, billing hooks, tenant admin portal in MVP 2 (BRD 02x)">
+        <div class="card-id">BRD 02</div>
+        <div class="card-name">Tenant Mgmt (Basic)</div>
+        <span class="badge">BRD Done</span>
+      </div>
+      <div class="card next1"
+        id="c03"
+        data-id="BRD 03" data-name="User Access & Hierarchy — Minimal" data-badge="1st Next in Line" data-badgecls="next1"
+        data-pts='["Hierarchy: Super Admin → Admin → Manager → Team Lead → Agent","5 hardcoded roles with permission matrix","User creation, login, basic password management","Agent profile: client(s), campaign(s), shift timing, language(s)","Client read-only portal access scoped to their tenant","Unblocks Allocation Engine and Dialler BRDs immediately"]'
+        data-evolves="Skills, SSO, audit trail, field agent attributes added in MVP 2 (BRD 03x)">
+        <div class="card-id">BRD 03</div>
+        <div class="card-name">UAM — Minimal</div>
+        <span class="badge">1st Next in Line</span>
+      </div>
+    </div>
+  </div>
+  <hr class="div"/>
+  <!-- Comms -->
+  <div class="layer">
+    <div class="layer-tag">Comms</div>
+    <div class="cards-row">
+      <div class="card indev" style="width:220px"
+        id="c10"
+        data-id="BRD 10 — MVP 1 Scope" data-name="Dialler + Agent Ops" data-badge="1st Next in Line (Rewrite)" data-badgecls="next1"
+        data-pts='["Exotel WebRTC — browser + headset, no mobile number needed","Exotel API config: ExoPhone mapping, webhooks, WebRTC SDK setup","Agent desktop: CRM view + call controls in a single screen","Call pop-up: customer snapshot, live timer, on-call notes","Live script with multilingual switching (critical Day 1 feature)","Disposition workflow: mandatory post-call, auto-loads next record","On-call SMS trigger active; WhatsApp + Email buttons built but inactive","DNC management: upload, search, one-click add from live call","Shift and break tracking (HR / SLA critical for MVP 1)","Call recordings stored and linked to CRM; client access configurable","Basic campaign setup: records + script + agents (not full campaign builder)","Manager: agent status list, call counts, break durations","Basic reports: call volume, connection rate, dispositions, recordings"]'
+        data-evolves="Full campaign builder, live monitoring dashboard, whisper/barge in MVP 2 (BRD 10x)">
+        <div class="card-id">BRD 10</div>
+        <div class="card-name">Dialler + Agent Ops</div>
+        <span class="badge">1st Next in Line</span>
+      </div>
+      <div class="card done"
+        id="c04"
+        data-id="BRD 04" data-name="SMS Module" data-badge="BRD Done" data-badgecls="done"
+        data-pts='["Outbound SMS linked to CRM records","On-call trigger from call pop-up during live call","Delivery status: sent / delivered / failed tracked per message","Template usage driven by BRD 05 template engine","Merge fields populated from CRM data at send time"]'
+        data-evolves="">
+        <div class="card-id">BRD 04</div>
+        <div class="card-name">SMS Module</div>
+        <span class="badge">BRD Done</span>
+      </div>
+      <div class="card next2"
+        id="c05"
+        data-id="BRD 05 — Phase 1" data-name="Template Management (SMS + Script)" data-badge="2nd Next in Line" data-badgecls="next2"
+        data-pts='["SMS templates: create, edit, assign merge fields, tag to campaign","Call script templates: multi-step, multilingual, version controlled","Merge field library drawn from CRM schema (name, amount, due date etc.)","Preview mode with sample customer data","Merge field schema designed for all future channels from Day 1 — critical design decision","Script step completion: agent checkbox per step with timestamp (manual)"]'
+        data-evolves="WhatsApp, email, notice templates added in MVP 2 (BRD 05x)">
+        <div class="card-id">BRD 05</div>
+        <div class="card-name">Templates Ph.1</div>
+        <span class="badge">2nd Next in Line</span>
+      </div>
+    </div>
+  </div>
+  <hr class="div"/>
+  <!-- Allocation -->
+  <div class="layer">
+    <div class="layer-tag">Allocation</div>
+    <div class="cards-row">
+      <div class="card next3" style="width:220px"
+        id="c08"
+        data-id="BRD 08 — Spans All MVPs" data-name="Allocation Engine — Calling" data-badge="3rd Next in Line" data-badgecls="next3"
+        data-pts='["MVP 1: Case ingestion via CSV + API push from client systems (linked to BRD 01 ingestion)","MVP 1: FIFO queue — system feeds predictive dialler automatically (no human queue management)","MVP 1: DNC check at dial time, not just at upload — prevents compliance violations","MVP 1: Disposition-based exclusion + cooldown rules (e.g. PTP → hold 3 days, Wrong Number → permanent exclude)","MVP 1: TRAI calling hour enforcement — mandatory or advisory toggle per client","MVP 1: Predictive dial ratio config (calls initiated per available agent)","MVP 1: Auto-reallocation when agent goes offline mid-shift","MVP 1: Manager manual override — reassign specific case to specific agent","MVP 2: Skills + language-based routing (uses BRD 03x agent profile attributes)","MVP 2: Performance-tier routing (high-value cases to top-performing agents)","MVP 2: Priority logic — configure per campaign (balance, DPD bucket, custom field)","MVP 2: Workflow automation hooks (BRD 11 triggers scheduled allocation runs)"]'
+        data-evolves="Continues to evolve through MVP 2 and MVP 3 — one living BRD, not a one-time document">
+        <div class="card-id">BRD 08</div>
+        <div class="card-name">Allocation — Calling</div>
+        <span class="badge">3rd Next in Line</span>
+      </div>
+      <div class="card next4"
+        id="cpay"
+        data-id="Payment Status API" data-name="Payment Status Update API (Inbound)" data-badge="4th Next in Line" data-badgecls="next4"
+        data-pts='["Inbound webhook from client system or payment gateway","Payment received → update case status in CRM immediately","Triggers exclusion: paid cases removed from dialler queue at next cycle","Partial payment: update outstanding balance on CRM record","PTP fulfilment tracking: was the promised payment actually made on the due date?","Reconciliation log: every status update timestamped with source","Event hook for Workflow Engine (MVP 2 BRD 11): payment received → auto-close case"]'
+        data-evolves="Full payment gateway integration, UPI, field cash collection, reconciliation dashboard in MVP 3 (BRD 16)">
+        <div class="card-id">Pay API</div>
+        <div class="card-name">Payment Status API</div>
+        <span class="badge">4th Next in Line</span>
+      </div>
+    </div>
+  </div>
+  <div class="live-bar live-t1">⬡ Track 1 — Call Centre Live</div>
+</div>
+</div>
+<!-- ════════════════════════════════════════
+     MVP 2
+     ════════════════════════════════════════ -->
+<div class="phase ph-mvp2">
+<div class="phase-header">
+  <div class="phase-title">MVP 2 — Automation, Multi-channel, Campaign Intelligence & Field Agents</div>
+  <div class="phase-count">10 BRDs</div>
+</div>
+<div class="phase-body">
+  <!-- Foundation extensions -->
+  <div class="layer">
+    <div class="layer-tag">Foundation</div>
+    <div class="cards-row">
+      <div class="card mvp2"
+        id="c02x"
+        data-id="BRD 02x" data-name="Tenant Management — Full" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["Self-service tenant onboarding wizard for new clients","Tenant admin portal: client manages their own users and settings","Per-tenant config: allowed channels, calling hours, DNC rules, branding","Billing hooks ready (actual billing engine is external / future)","Tenant-level audit trail of all configuration changes"]'
+        data-evolves="">
+        <div class="card-id">BRD 02x</div>
+        <div class="card-name">Tenant Mgmt (Full)</div>
+        <span class="badge">MVP 2</span>
+      </div>
+      <div class="card mvp2"
+        id="c03x"
+        data-id="BRD 03x" data-name="UAM — Full" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["Skills and product knowledge tags on agent profile","Performance tier attribute (feeds advanced allocation in BRD 08)","Full audit trail of all user creation and modification","SSO / OAuth integration for enterprise clients","Self-service password reset for agents and managers","Field agent profile attributes: city, state, pin codes covered, vehicle type","Agent language proficiency levels for script routing logic"]'
+        data-evolves="">
+        <div class="card-id">BRD 03x</div>
+        <div class="card-name">UAM — Full</div>
+        <span class="badge">MVP 2</span>
+      </div>
+    </div>
+  </div>
+  <hr class="div"/>
+  <!-- Channels -->
+  <div class="layer">
+    <div class="layer-tag">Channels</div>
+    <div class="cards-row">
+      <div class="card mvp2"
+        id="c06"
+        data-id="BRD 06" data-name="WhatsApp Module" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["Templated and conversational WhatsApp messaging","On-call trigger button pre-built in BRD 10 — activates here","Delivery and read receipts synced to CRM interaction timeline","Opt-out management with auto-DNC flag on opt-out","Campaign-level WhatsApp sequences orchestrated by BRD 12"]'
+        data-warn="Meta Business API approval: start process now — 4 to 8 week external timeline outside your control. Do not wait until MVP 2 kickoff to start."
+        data-evolves="">
+        <div class="card-id">BRD 06</div>
+        <div class="card-name">WhatsApp</div>
+        <span class="badge">MVP 2</span>
+      </div>
+      <div class="card mvp2"
+        id="c07"
+        data-id="BRD 07" data-name="Email Module" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["Templated email delivery for collections and formal communications","On-call trigger button pre-built in BRD 10 — activates here","Bounce and open tracking synced to CRM timeline","Primary use case: legal notices and formal payment demand letters","Campaign-level email sequences orchestrated by BRD 12"]'
+        data-evolves="">
+        <div class="card-id">BRD 07</div>
+        <div class="card-name">Email Module</div>
+        <span class="badge">MVP 2</span>
+      </div>
+      <div class="card mvp2"
+        id="c05x"
+        data-id="BRD 05x" data-name="Template Management — All Channels" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["WhatsApp templates added (post Meta approval)","Email templates: design, merge fields, subject line","Notice templates: legal-grade formatting for BRD 14","Multi-channel preview: see how a template renders per channel","Cross-channel merge field consistency enforced across all templates","Template library searchable and taggable by campaign and channel"]'
+        data-evolves="Voice bot script templates added in MVP 3 (BRD 17)">
+        <div class="card-id">BRD 05x</div>
+        <div class="card-name">Templates — All Channels</div>
+        <span class="badge">MVP 2</span>
+      </div>
+    </div>
+  </div>
+  <hr class="div"/>
+  <!-- Automation -->
+  <div class="layer">
+    <div class="layer-tag">Automation</div>
+    <div class="cards-row">
+      <div class="card mvp2" style="width:200px"
+        id="c11"
+        data-id="BRD 11 — Core Differentiator" data-name="Workflow Automation Engine" data-badge="MVP 2 — Core" data-badgecls="mvp2"
+        data-pts='["Time-based trigger: allocate next day cases at 9am daily","Disposition-based trigger: after PTP → schedule follow-up call in 3 days + send SMS confirmation","Event-based trigger: payment received → close case automatically","Visual if-this-then-that workflow builder canvas (admin)","Action library: send SMS, WhatsApp, email, allocate case, update status, create task","Workflow execution log: every trigger fired with action taken and result","Per-campaign workflow assignment","All other modules plug into this engine as trigger sources or action targets"]'
+        data-evolves="Attempt-based triggers (3 no-answers → escalate to field) and stage-based triggers (90 DPD → legal notice) added in MVP 3">
+        <div class="card-id">BRD 11</div>
+        <div class="card-name">Workflow Automation</div>
+        <span class="badge">MVP 2 — Core</span>
+      </div>
+      <div class="card mvp2" style="width:200px"
+        id="c12"
+        data-id="BRD 12" data-name="Campaign Management" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["Campaign creation wizard: name, client, type (calling / SMS / WA / email / blended)","Lead upload: CSV + API push from client CRM or LOS","Multi-channel sequence design: call → WhatsApp → email if no answer","Script and template assignment from BRD 05x library","Workflow assignment: link automation rules to campaign (BRD 11)","Calling rules: hours, max attempts, retry gaps, priority order","Disposition set configuration per campaign","Live campaign analytics: status, funnel, completion % by channel","Pause, resume, end campaign controls with immediate effect","Client-facing campaign dashboard in read-only portal"]'
+        data-evolves="">
+        <div class="card-id">BRD 12</div>
+        <div class="card-name">Campaign Management</div>
+        <span class="badge">MVP 2</span>
+      </div>
+      <div class="card mvp2" style="width:200px"
+        id="c10x"
+        data-id="BRD 10x" data-name="Dialler + Agent Ops — Advanced" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["Full campaign builder integration (from BRD 12)","Manager live monitoring dashboard with real-time WebSocket refresh","Whisper and Barge call supervision (dependent on Exotel plan support)","Script panel enhanced with objection handling section","Callback queue management screen for agents","Client portal: campaign performance reports and recording access","Intraday live KPI dashboard with hourly chart","Best-time-to-call heatmap by hour of day and day of week","Agent performance ranking and comparison across team"]'
+        data-evolves="">
+        <div class="card-id">BRD 10x</div>
+        <div class="card-name">Dialler — Advanced</div>
+        <span class="badge">MVP 2</span>
+      </div>
+    </div>
+  </div>
+  <hr class="div"/>
+  <!-- Field Track in MVP 2 -->
+  <div class="layer">
+    <div class="layer-tag">Field</div>
+    <div class="cards-row">
+      <div class="card mvp2" style="width:220px"
+        id="c13"
+        data-id="BRD 13" data-name="Field Agent App (Enhancement + Linking)" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["Existing basic app — this BRD covers platform linking and all enhancements","Login with tenant-scoped access using BRD 03 roles for field agents","Daily visit list generated and pushed by BRD 09 Allocation Engine","Customer record view on mobile: full CRM data including history","Visit outcome logging: met / not home / refused / PTP / paid at door","GPS geo-tag captured at visit time — proof of visit for compliance and dispute","Photo and customer signature capture at location","Offline mode: log all visits without connectivity, auto-sync on reconnect","In-app navigation: one tap to open maps app with customer address","One-tap escalation flag: send case to legal from within the app","PTP capture: date and amount committed — syncs immediately to CRM","Manager view: live field agent location map, visit completion rate per agent"]'
+        data-evolves="">
+        <div class="card-id">BRD 13</div>
+        <div class="card-name">Field Agent App</div>
+        <span class="badge">MVP 2</span>
+      </div>
+      <div class="card mvp2" style="width:220px"
+        id="c09"
+        data-id="BRD 09" data-name="Allocation Engine — Field" data-badge="MVP 2" data-badgecls="mvp2"
+        data-pts='["Geo-clustering: group cases by pin code and locality to minimise agent travel time","Capacity planning: max visits per agent per day based on geography and case complexity","Priority routing: urgency tier, days past due, outstanding amount combined score","Route optimisation: sequenced daily visit list for each agent (shortest path)","Re-allocation: if marked not reachable, route to next available field agent in the area","Shared exclusion and DNC logic with Calling Allocation BRD 08","Daily list generation via Workflow Engine (BRD 11) automatically at start of shift"]'
+        data-evolves="">
+        <div class="card-id">BRD 09</div>
+        <div class="card-name">Allocation — Field</div>
+        <span class="badge">MVP 2</span>
+      </div>
+    </div>
+  </div>
+  <div class="live-bar live-t2">⬡ Track 2 — Field Agents Live</div>
+</div>
+</div>
+<!-- ════════════════════════════════════════
+     MVP 3
+     ════════════════════════════════════════ -->
+<div class="phase ph-mvp3">
+<div class="phase-header">
+  <div class="phase-title">MVP 3 — Legal, Payments, IVR / Voice Bot & Consolidated Reporting</div>
+  <div class="phase-count">5 BRDs</div>
+</div>
+<div class="phase-body">
+  <div class="layer">
+    <div class="layer-tag">Legal</div>
+    <div class="cards-row">
+      <div class="card mvp3" style="width:210px"
+        id="c14"
+        data-id="BRD 14" data-name="Digital Notice Creation & Delivery" data-badge="MVP 3" data-badgecls="mvp3"
+        data-pts='["Notice types: soft reminder → hard reminder → demand notice → LRN → Section 138 NI Act → arbitration","Notice template builder using BRD 05x template engine with legal-grade formatting","Approval workflow: drafter → legal reviewer → authorised signatory","Delivery channels: SMS link, WhatsApp, email, print-ready PDF","Delivery tracking: sent / delivered / opened / bounced — per notice per channel","Legally admissible audit log per case — every notice, every action timestamped","Auto-trigger via Workflow Engine when case crosses DPD threshold (BRD 11 stage trigger)"]'
+        data-evolves="">
+        <div class="card-id">BRD 14</div>
+        <div class="card-name">Digital Notices</div>
+        <span class="badge">MVP 3</span>
+      </div>
+      <div class="card mvp3" style="width:210px"
+        id="c15"
+        data-id="BRD 15" data-name="Legal Workflow Management" data-badge="MVP 3" data-badgecls="mvp3"
+        data-pts='["Legal escalation trigger: from field app, calling agent, or manager","Case stages: pre-legal → notice issued → LRN sent → arbitration → court filing → decree → recovery","Court date calendar with hearing reminders and alerts to legal officer","Legal document vault per case: notices, affidavits, vakalatnamas, court orders","Lawyer and legal officer assignment with workload visibility","Outcome logging: decree amount, recovery status, write-off recommendation","Workflow Engine integration: auto-escalate at DPD thresholds (BRD 11 stage trigger)"]'
+        data-evolves="">
+        <div class="card-id">BRD 15</div>
+        <div class="card-name">Legal Workflow</div>
+        <span class="badge">MVP 3</span>
+      </div>
+    </div>
+  </div>
+  <hr class="div"/>
+  <div class="layer">
+    <div class="layer-tag">Payments</div>
+    <div class="cards-row">
+      <div class="card mvp3" style="width:210px"
+        id="c16"
+        data-id="BRD 16" data-name="Payment Collection & Reconciliation" data-badge="MVP 3" data-badgecls="mvp3"
+        data-pts='["Payment link generation triggered from call pop-up or via Workflow Engine","UPI and QR code collection by field agents at customer doorstep","Cash collection logging with mandatory photo proof from field app","Full payment gateway API integration (extends MVP 1 Payment Status API)","Payment status sync to CRM — manual entry + API from gateway","Reconciliation dashboard: amounts collected vs cases marked as paid","Client remittance reporting: what was collected on their behalf and when","Partial payment handling and ongoing PTP fulfilment tracking","Workflow integration: payment received → auto-close case (BRD 11 event trigger)"]'
+        data-evolves="">
+        <div class="card-id">BRD 16</div>
+        <div class="card-name">Payments + Recon</div>
+        <span class="badge">MVP 3</span>
+      </div>
+      <div class="card mvp3" style="width:210px"
+        id="c17"
+        data-id="BRD 17" data-name="IVR / Voice Bot — Live" data-badge="MVP 3" data-badgecls="mvp3"
+        data-pts='["Outbound voice bot calls customer before human agent — pre-screening and payment reminder","Automated payment reminder via voice call with no agent involvement","Keypress actions: Press 1 to confirm payment date, Press 2 to speak to agent","Agent transfer: bot hands off immediately to live dialler queue on keypress","Payment link dispatched via SMS automatically during bot call","Indic language TTS: Hindi + regional languages evaluated and selected in MVP 2 design phase","Bot disposition syncs to CRM: answered / not answered / transferred / keypress captured","Workflow Engine integration: bot call as a step in multi-attempt sequence (BRD 11)","Voice bot script templates from BRD 05x template engine"]'
+        data-evolves="">
+        <div class="card-id">BRD 17</div>
+        <div class="card-name">IVR / Voice Bot</div>
+        <span class="badge">MVP 3</span>
+      </div>
+    </div>
+  </div>
+  <hr class="div"/>
+  <!-- Consolidated Reporting -->
+  <div class="layer">
+    <div class="layer-tag">Reporting</div>
+    <div class="cards-row">
+      <div class="card mvp3 card-wide"
+        id="c18"
+        data-id="BRD 18 — Written Last, After All Modules Live" data-name="Consolidated Reporting & Analytics" data-badge="MVP 3 — Final BRD" data-badgecls="mvp3"
+        data-pts='["Cross-channel dashboard: calls + field + digital + legal + payments unified view","Client portfolio health: collection efficiency, channel-wise outcomes, DPD movement over time","Agent performance: calling agents and field agents on comparable metric framework","Allocation effectiveness: did the right case reach the right agent at the right time?","Workflow automation ROI: which rules and sequences are driving collection outcomes?","Cohort analysis: recovery rate by DPD bucket, product type, and geography","Campaign performance comparison: which campaign design outperforms?","Custom report builder: admin drag-and-drop metrics and filter builder","Scheduled report delivery via email and client portal (daily, weekly, monthly)","Future hook: ML predictive scoring and next-best-action model integration"]'
+        data-evolves="">
+        <div class="card-id">BRD 18 — Written after all modules are live</div>
+        <div class="card-name">Consolidated Reporting & Analytics</div>
+        <span class="badge">MVP 3 — Final BRD</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- ════════════════════════════════════════
+     FUTURE
+     ════════════════════════════════════════ -->
+<div class="phase ph-future">
+<div class="phase-header">
+  <div class="phase-title">Future — Separate Scoping Required</div>
+</div>
+<div class="phase-body">
+  <div class="future-pills">
+    <div class="fp">Customer self-service portal</div>
+    <div class="fp">Tenant self-service billing engine</div>
+    <div class="fp">AI / ML predictive scoring</div>
+    <div class="fp">Real-time sentiment analysis (caller + customer)</div>
+    <div class="fp">CSAT post-call IVR survey</div>
+    <div class="fp">Abusive / aggressive call detection</div>
+    <div class="fp">Script QA automation (transcription-based)</div>
+    <div class="fp">WhatsApp conversational bot (beyond templated)</div>
+    <div class="fp">Gamification + agent leaderboards</div>
+  </div>
+</div>
+</div>
+<!-- Reporting note -->
+<div class="rpt-note">
+<strong>Reporting convention:</strong> Every BRD above includes its own contextual dashboards and reports section — covering (1) operational live view for managers, (2) standard exportable reports, and (3) client-facing portal view for that module. BRD 18 is the consolidated cross-module analytics layer and is written last when all upstream data flows exist.
+</div>
+<!-- Sequence strip -->
+<div class="seq-strip">
+<strong>BRD Write Sequence</strong>
+<span class="seq-step">① BRD 03 UAM</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">② BRD 05 Templates Ph.1</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">③ BRD 08 Allocation Calling</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">④ Payment Status API</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑤ BRD 10 Dialler</span>
+<span class="seq-arrow">→</span>
+<span class="seq-live">Track 1 Live</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑥ BRD 11 Workflow</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑦ BRD 06 WA + BRD 07 Email</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑧ BRD 05x Templates All</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑨ BRD 12 Campaigns</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑩ BRD 10x Dialler Adv.</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑪ BRD 13 Field App + BRD 09 Alloc-Field</span>
+<span class="seq-arrow">→</span>
+<span class="seq-live seq-live2">Track 2 Live</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑫ BRD 14 Notices + BRD 15 Legal + BRD 16 Payments + BRD 17 IVR</span>
+<span class="seq-arrow">→</span>
+<span class="seq-step">⑬ BRD 18 Consolidated Reporting</span>
+</div>
+<!-- Tooltip -->
+<div class="tooltip" id="tooltip">
+<div class="tt-id" id="tt-id"></div>
+<div class="tt-name" id="tt-name"></div>
+<span class="badge tt-badge" id="tt-badge"></span>
+<hr class="tt-divider"/>
+<ul class="tt-pts" id="tt-pts"></ul>
+</div>
+<script>
+const badgeColors={
+done:'background:#0a6640;color:#fff',
+indev:'background:#c97d00;color:#fff',
+next1:'background:#3028a0;color:#fff',
+next2:'background:#252888;color:#fff',
+next3:'background:#1e2278;color:#fff',
+next4:'background:#181c68;color:#fff',
+mvp2:'background:#0a3a6a;color:#fff',
+mvp3:'background:#7a2a06;color:#fff',
+future:'background:#999;color:#fff'
+};
+document.querySelectorAll('.card').forEach(card=>{
+card.addEventListener('mouseenter',e=>{
+const d=card.dataset;
+document.getElementById('tt-id').textContent=d.id||'';
+document.getElementById('tt-name').textContent=d.name||'';
+const tb=document.getElementById('tt-badge');
+tb.textContent=d.badge||'';
+tb.setAttribute('style',badgeColors[d.badgecls]||'');
+const ul=document.getElementById('tt-pts');
+ul.innerHTML='';
+(JSON.parse(d.pts||'[]')).forEach(p=>{
+const li=document.createElement('li');
+li.textContent=p;
+ul.appendChild(li);
+});
+if(d.warn){
+const li=document.createElement('li');
+li.textContent=d.warn;
+li.className='warn';
+ul.appendChild(li);
+}
+if(d.evolves){
+const li=document.createElement('li');
+li.textContent=d.evolves;
+li.className='evolves';
+ul.appendChild(li);
+}
+document.getElementById('tooltip').classList.add('show');
+pos(e);
+});
+card.addEventListener('mousemove',pos);
+card.addEventListener('mouseleave',()=>document.getElementById('tooltip').classList.remove('show'));
+});
+function pos(e){
+const tip=document.getElementById('tooltip');
+const tw=300,th=tip.offsetHeight||320;
+let x=e.clientX+18,y=e.clientY-20;
+if(x+tw>window.innerWidth-12)x=e.clientX-tw-18;
+if(y+th>window.innerHeight-12)y=window.innerHeight-th-12;
+if(y<10)y=10;
+tip.style.left=x+'px';
+tip.style.top=y+'px';
+}
+</script>
+</body>
+</html>
